@@ -1,9 +1,7 @@
 import { Agenda, Calendar, CalendarList } from "react-native-calendars";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useCallback, useEffect, useLayoutEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import { Image } from "@rneui/themed";
-import { color } from "@rneui/themed/dist/config";
 import { colors } from "../utils/Colors";
 import { useMemo } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -75,6 +73,7 @@ const BookScreen = () => {
         onDayPress={onDayPress}
         style={{
           marginHorizontal: 15,
+          marginTop: 100,
         }}
         theme={{}}
       />
@@ -134,7 +133,7 @@ const styles = StyleSheet.create({
   },
   backgroundImg: {
     width: "100%",
-    height: "38.5%",
+    height: "15%",
   },
   headerText: {
     color: "white",
@@ -142,7 +141,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     position: "absolute",
     top: "7%",
-    left: "30%",
+    alignSelf: "center",
+    justifyContent: "center",
   },
   buttonsContainer: {
     flexDirection: "row",
