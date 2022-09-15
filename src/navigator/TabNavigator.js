@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import BookScreen from "../screens/BookScreen";
 import DashboardScreen from "../screens/DashboardScreen";
 import { Icon } from "@rneui/themed";
+import SelectScreen from "../screens/SelectScreen";
 import ViewScreen from "../screens/ViewScreen";
 import { colors } from "../utils/Colors";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -60,9 +61,9 @@ const TabNavigator = () => {
         ],
       })}
     >
-      <Tab.Screen name="Reservations" component={ViewScreen} />
-      <Tab.Screen name="Dashboard" component={DashboardScreen} />
       <Tab.Screen name="Book" component={BookScreen} />
+      <Tab.Screen name="Dashboard" component={DashboardScreen} />
+      <Tab.Screen name="Reservations" component={ViewScreen} />
     </Tab.Navigator>
   );
 };

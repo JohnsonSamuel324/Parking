@@ -3,9 +3,7 @@ import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import DashboardScreen from "./src/screens/DashboardScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import RootNavigator from "./src/navigator/RootNavigator";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
-const Stack = createNativeStackNavigator();
+import SelectScreen from "./src/screens/SelectScreen";
 
 export default function App() {
   return (

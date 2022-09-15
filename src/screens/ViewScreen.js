@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 
 import { colors } from "../utils/Colors";
 import { useNavigation } from "@react-navigation/native";
@@ -13,6 +13,17 @@ const ViewScreen = () => {
     });
   }, []);
 
+  let state = {
+    button1: "underline",
+    button2: null,
+  };
+
+  const [button, selButton] = useState(state);
+
+  useEffect(() => {
+    return;
+  }, [state]);
+
   return (
     <View style={styles.mainContainer}>
       <Image
@@ -24,10 +35,22 @@ const ViewScreen = () => {
       <Text style={styles.headerText}>My Reservations</Text>
       <View style={styles.upcomingContainer}>
         <View style={styles.tabView}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              state = { button1: "underline", button2: null };
+              selButton(state);
+            }}
+            style={[button.button1 === "underline" ? styles.selView : null]}
+          >
             <Text style={styles.tabViewText}>UPCOMING</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              state = { button1: null, button2: "underline" };
+              selButton(state);
+            }}
+            style={[button.button2 === "underline" ? styles.selView : null]}
+          >
             <Text style={styles.tabViewText}>PREVIOUS</Text>
           </TouchableOpacity>
         </View>
@@ -72,11 +95,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     position: "absolute",
     top: 20,
-    left: 25,
+    left: 10,
   },
   tabViewText: {
     color: "white",
     fontSize: "16px",
-    paddingRight: 40,
+    marginHorizontal: 10,
+  },
+  selView: {
+    borderBottomWidth: 4,
+    borderBottomColor: "purple",
   },
 });

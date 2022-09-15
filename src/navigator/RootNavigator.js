@@ -1,6 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
+import SelectScreen from "../screens/SelectScreen";
 import TabNavigator from "./TabNavigator";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
@@ -14,6 +15,7 @@ const RootNavigator = () => {
     <RootStack.Navigator>
       <RootStack.Group>
         <RootStack.Screen name="Main" component={TabNavigator} />
+        <RootStack.Screen name="Select" component={SelectScreen} />
       </RootStack.Group>
     </RootStack.Navigator>
   );
