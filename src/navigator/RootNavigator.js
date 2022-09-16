@@ -15,9 +15,10 @@ const RootNavigator = () => {
   return (
     <RootStack.Navigator>
       <RootStack.Group>
-        <RootStack.Screen name="Template" component={SpaceTemplate} />
-        <RootStack.Screen name="Main" component={TabNavigator} />
         <RootStack.Screen name="Select" component={SelectScreen} />
+        <RootStack.Screen name="Template" component={SpaceTemplate} />
+
+        <RootStack.Screen name="Main" component={TabNavigator} />
       </RootStack.Group>
     </RootStack.Navigator>
   );

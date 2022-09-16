@@ -1,6 +1,14 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React, { useLayoutEffect } from "react";
 
+import SpaceTemplate from "../components/SpaceTemplate";
 import { colors } from "../utils/Colors";
 import { useNavigation } from "@react-navigation/native";
 
@@ -11,6 +19,19 @@ const SelectScreen = () => {
       headerShown: false,
     });
   }, []);
+
+  const spaces = [
+    { title: "Space 1" },
+    { title: "Space 2" },
+    { title: "Space 3" },
+    { title: "Space 4" },
+    { title: "Space 5" },
+    { title: "Space 6" },
+    { title: "Space 7" },
+    { title: "Space 8" },
+    { title: "Space 9" },
+    { title: "Space 10" },
+  ];
 
   return (
     <View style={styles.mainContainer}>
@@ -32,6 +53,24 @@ const SelectScreen = () => {
         >
           09/16/2022 8:00 AM - 09/16/2022 5:00 PM
         </Text>
+        <FlatList
+          data={spaces}
+          renderItem={({ item }) => {
+            return (
+              <ScrollView>
+                <SpaceTemplate spaceNum={item.title} />
+              </ScrollView>
+            );
+          }}
+          keyExtractor={(item) => item.title}
+          style={{
+            position: "absolute",
+            top: "10%",
+            left: "0%",
+            right: "0%",
+            bottom: "0%",
+          }}
+        />
       </View>
     </View>
   );
