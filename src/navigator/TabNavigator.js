@@ -61,9 +61,9 @@ const TabNavigator = () => {
         ],
       })}
     >
-      <Tab.Screen name="Book" component={BookScreen} />
       <Tab.Screen name="Dashboard" component={DashboardScreen} />
       <Tab.Screen name="Reservations" component={ViewScreen} />
+      <Tab.Screen name="Book" component={BookScreen} />
     </Tab.Navigator>
   );
 };

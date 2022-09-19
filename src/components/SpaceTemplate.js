@@ -1,13 +1,19 @@
-import React, { useLayoutEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 
 import Checkbox from "expo-checkbox";
 import { colors } from "../utils/Colors";
 import { useNavigation } from "@react-navigation/native";
 
-const SpaceTemplate = ({ spaceNum }) => {
+const SpaceTemplate = ({ spaceNum, id, setChecked }) => {
   const navigation = useNavigation();
-  const [isChecked, setChecked] = useState(false);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -15,51 +21,76 @@ const SpaceTemplate = ({ spaceNum }) => {
     });
   }, []);
 
+  const spaces = [
+    { title: "Space 1", checked: false },
+    { title: "Space 2", checked: false },
+    { title: "Space 3", checked: false },
+    { title: "Space 4", checked: false },
+    { title: "Space 5", checked: false },
+    { title: "Space 6", checked: false },
+    { title: "Space 7", checked: false },
+    { title: "Space 8", checked: false },
+    { title: "Space 9", checked: false },
+    { title: "Space 10", checked: false },
+  ];
+
   return (
-    <SafeAreaView
+    <View
       style={{
         backgroundColor: "#1a1c1d",
         borderBottomWidth: 2,
         borderBottomColor: "grey",
       }}
     >
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
+      <FlatList
+        data={spaces}
+        renderItem={({ item }) => {
+          return (
+            <ScrollView>
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: "24",
+                  fontWeight: "bold",
+                  paddingBottom: 2,
+                  marginRight: "auto",
+                }}
+              >
+                {spaceNum}
+              </Text>
+              <Checkbox
+                value={item.checked}
+                onValueChange={(item.checked = true)}
+                size={24}
+                style={{
+                  marginLeft: "auto",
+                  position: "absolute",
+                  right: "8%",
+                  top: "20%",
+                  width: 32,
+                  height: 32,
+                }}
+              />
+              <Text
+                style={{
+                  color: "white",
+                }}
+              >
+                This is subtext
+              </Text>
+            </ScrollView>
+          );
         }}
-      >
-        <Text
-          style={{
-            color: "white",
-            fontSize: "24",
-            fontWeight: "bold",
-            paddingBottom: 2,
-            marginRight: "auto",
-          }}
-        >
-          {spaceNum}
-        </Text>
-        <Checkbox
-          value={isChecked}
-          onValueChange={setChecked}
-          size={24}
-          style={{
-            marginLeft: "auto",
-            marginRight: "5%",
-            width: 28,
-            height: 28,
-          }}
-        />
-      </View>
-      <Text
+        keyExtractor={(item) => item.title}
         style={{
-          color: "white",
+          position: "absolute",
+          top: "10%",
+          left: "1%",
+          right: "0%",
+          bottom: "0%",
         }}
-      >
-        This is subtext
-      </Text>
-    </SafeAreaView>
+      />
+    </View>
   );
 };
 
