@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 
+import { Button } from "react-native";
 import SpaceTemplate from "../components/SpaceTemplate";
 import { colors } from "../utils/Colors";
 import { useNavigation } from "@react-navigation/native";
@@ -35,7 +36,7 @@ const SelectScreen = () => {
             color: "white",
             fontSize: "18",
             position: "absolute",
-            top: "5%",
+            top: "3%",
           }}
         >
           09/16/2022 8:00 AM - 09/16/2022 5:00 PM

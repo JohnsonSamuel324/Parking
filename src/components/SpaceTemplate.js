@@ -12,7 +12,7 @@ import Checkbox from "expo-checkbox";
 import { colors } from "../utils/Colors";
 import { useNavigation } from "@react-navigation/native";
 
-const SpaceTemplate = ({ spaceNum, id, setChecked }) => {
+const SpaceTemplate = () => {
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -21,18 +21,46 @@ const SpaceTemplate = ({ spaceNum, id, setChecked }) => {
     });
   }, []);
 
-  const spaces = [
-    { title: "Space 1", checked: false },
-    { title: "Space 2", checked: false },
-    { title: "Space 3", checked: false },
-    { title: "Space 4", checked: false },
-    { title: "Space 5", checked: false },
-    { title: "Space 6", checked: false },
-    { title: "Space 7", checked: false },
-    { title: "Space 8", checked: false },
-    { title: "Space 9", checked: false },
-    { title: "Space 10", checked: false },
-  ];
+  const [temp, setTemp] = useState();
+  const [tempArr, setTempArr] = useState();
+  const [spaces, setSpaces] = useState();
+
+  if (spaces === undefined) {
+    setSpaces([
+      { title: "Space 1", checked: false, disabled: false },
+      { title: "Space 2", checked: false, disabled: false },
+      { title: "Space 3", checked: false, disabled: false },
+      { title: "Space 4", checked: false, disabled: false },
+      { title: "Space 5", checked: false, disabled: false },
+      { title: "Space 6", checked: false, disabled: false },
+      { title: "Space 7", checked: false, disabled: false },
+      { title: "Space 8", checked: false, disabled: false },
+      { title: "Space 9", checked: false, disabled: false },
+      { title: "Space 10", checked: false, disabled: false },
+    ]);
+  }
+
+  useEffect(() => {
+    if (tempArr != null) {
+      setSpaces(tempArr);
+    }
+  }, [spaces]);
+
+  const allowOneChecked = (index) => {
+    setTemp(spaces);
+    temp[index] = {
+      title: temp[index].title,
+      checked: !temp[index].checked,
+      disabled: false,
+    };
+    temp.forEach((space) => {
+      if (temp[index].checked === true && space.title != temp[index].title) {
+        space.disabled = true;
+      } else if (temp[index].checked === false) {
+        space.disabled = false;
+      }
+    });
+  };
 
   return (
     <View
@@ -40,6 +68,11 @@ const SpaceTemplate = ({ spaceNum, id, setChecked }) => {
         backgroundColor: "#1a1c1d",
         borderBottomWidth: 2,
         borderBottomColor: "grey",
+        position: "absolute",
+        top: "8%",
+        bottom: "0%",
+        left: "0%",
+        right: "0%",
       }}
     >
       <FlatList
@@ -53,14 +86,21 @@ const SpaceTemplate = ({ spaceNum, id, setChecked }) => {
                   fontSize: "24",
                   fontWeight: "bold",
                   paddingBottom: 2,
-                  marginRight: "auto",
                 }}
               >
-                {spaceNum}
+                {item.title}
               </Text>
               <Checkbox
+                disabled={item.disabled}
                 value={item.checked}
-                onValueChange={(item.checked = true)}
+                onValueChange={() => {
+                  const index = spaces.findIndex((object) => {
+                    return object.title === item.title;
+                  });
+                  allowOneChecked(index);
+                  setTempArr(temp);
+                  setSpaces(undefined);
+                }}
                 size={24}
                 style={{
                   marginLeft: "auto",
@@ -81,14 +121,7 @@ const SpaceTemplate = ({ spaceNum, id, setChecked }) => {
             </ScrollView>
           );
         }}
-        keyExtractor={(item) => item.title}
-        style={{
-          position: "absolute",
-          top: "10%",
-          left: "1%",
-          right: "0%",
-          bottom: "0%",
-        }}
+        key={(item) => item.title}
       />
     </View>
   );
