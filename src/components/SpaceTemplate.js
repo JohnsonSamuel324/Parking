@@ -7,12 +7,14 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
+import { child, get, getDatabase, ref } from "firebase/database";
 
 import Checkbox from "expo-checkbox";
 import { colors } from "../utils/Colors";
+import { firebase } from "../../src/firebase/config";
 import { useNavigation } from "@react-navigation/native";
 
-const SpaceTemplate = () => {
+const SpaceTemplate = ({ retrieveChecked }) => {
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -40,6 +42,10 @@ const SpaceTemplate = () => {
     ]);
   }
 
+  let i = 0;
+  const dbRef = ref(getDatabase());
+  console.log(get(dbRef, spaces));
+
   useEffect(() => {
     if (tempArr != null) {
       setSpaces(tempArr);
@@ -47,7 +53,6 @@ const SpaceTemplate = () => {
   }, [spaces]);
 
   const allowOneChecked = (index) => {
-    setTemp(spaces);
     temp[index] = {
       title: temp[index].title,
       checked: !temp[index].checked,
@@ -97,9 +102,13 @@ const SpaceTemplate = () => {
                   const index = spaces.findIndex((object) => {
                     return object.title === item.title;
                   });
-                  allowOneChecked(index);
-                  setTempArr(temp);
-                  setSpaces(undefined);
+                  setTemp(spaces);
+                  if (temp != undefined) {
+                    allowOneChecked(index);
+                    setTempArr(temp);
+                    retrieveChecked(temp[index]);
+                    setSpaces(undefined);
+                  }
                 }}
                 size={24}
                 style={{

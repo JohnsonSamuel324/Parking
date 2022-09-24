@@ -103,7 +103,7 @@ const BookScreen = () => {
         <TouchableOpacity
           style={{ backgroundColor: "grey", marginHorizontal: 20 }}
           onPress={() => {
-            navigation.navigate("Reservations");
+            navigation.navigate("Dashboard");
           }}
         >
           <Text style={styles.buttonsStyle}>Back</Text>

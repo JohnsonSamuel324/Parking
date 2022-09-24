@@ -4,17 +4,31 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
+import { getDatabase, ref, set } from "firebase/database";
 
 import { Button } from "react-native";
 import SpaceTemplate from "../components/SpaceTemplate";
 import { colors } from "../utils/Colors";
+import { firebase } from "../../src/firebase/config";
 import { useNavigation } from "@react-navigation/native";
 
 const SelectScreen = () => {
   const navigation = useNavigation();
+  const db = getDatabase();
+  const [selSpace, setSelSpace] = useState(null);
+
+  const retrieveChecked = (space) => {
+    if (space.checked === true) {
+      setSelSpace(space);
+    } else {
+      setSelSpace(null);
+    }
+  };
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -41,7 +55,75 @@ const SelectScreen = () => {
         >
           09/16/2022 8:00 AM - 09/16/2022 5:00 PM
         </Text>
-        <SpaceTemplate />
+        <SpaceTemplate retrieveChecked={retrieveChecked} />
+      </View>
+      <View
+        style={{
+          position: "absolute",
+          top: "80%",
+          right: "0%",
+          flexDirection: "row",
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            backgroundColor: "gray",
+            width: "35%",
+            height: "200%",
+            justifyContent: "center",
+            borderRadius: 5,
+          }}
+          onPress={() => {
+            navigation.pop();
+          }}
+        >
+          <Text
+            style={{
+              color: "white",
+              fontSize: "20",
+              fontWeight: "bold",
+              textAlign: "center",
+              justifyContent: "center",
+            }}
+          >
+            Back
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "purple",
+            width: "45%",
+            height: "200%",
+            justifyContent: "center",
+            borderRadius: 5,
+            marginLeft: "10%",
+          }}
+          disabled={selSpace === null ? true : false}
+          onPress={() => {
+            // Only does something if space is checked
+            if (selSpace != null) {
+              console.log("Navigating to next screen...");
+              console.log("Passing: " + selSpace.title);
+              set(ref(db), {
+                name: "Testing",
+                worked: "Yes",
+              });
+            }
+            // Else does not run anything when pressed
+          }}
+        >
+          <Text
+            style={{
+              color: "white",
+              fontSize: "20",
+              fontWeight: "bold",
+              textAlign: "center",
+              justifyContent: "center",
+            }}
+          >
+            Continue
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
