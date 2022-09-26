@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { child, get, getDatabase, ref } from "firebase/database";
+import { getDatabase, onValue, ref } from "firebase/database";
 
 import Checkbox from "expo-checkbox";
 import { colors } from "../utils/Colors";
@@ -42,9 +42,20 @@ const SpaceTemplate = ({ retrieveChecked }) => {
     ]);
   }
 
-  let i = 0;
-  const dbRef = ref(getDatabase());
-  console.log(get(dbRef, spaces));
+  const db = getDatabase();
+  let index = 0;
+  if (spaces != undefined) {
+    spaces.forEach((space) => {
+      const reference = ref(db, "spaces/" + spaces[index].title);
+      onValue(reference, (snapshot) => {
+        // console.log("Space " + (index + 1) + " " + snapshot.val().reserved);
+        if (snapshot.val().reserved === true) {
+          spaces.splice(index, 1);
+        }
+      });
+      index++;
+    });
+  }
 
   useEffect(() => {
     if (tempArr != null) {

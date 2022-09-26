@@ -8,9 +8,8 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, onValue, ref, set } from "firebase/database";
 
-import { Button } from "react-native";
 import SpaceTemplate from "../components/SpaceTemplate";
 import { colors } from "../utils/Colors";
 import { firebase } from "../../src/firebase/config";
@@ -21,6 +20,7 @@ const SelectScreen = () => {
   const db = getDatabase();
   const [selSpace, setSelSpace] = useState(null);
 
+  // Variable used to grab which space is grabbed from the child component
   const retrieveChecked = (space) => {
     if (space.checked === true) {
       setSelSpace(space);
@@ -102,11 +102,11 @@ const SelectScreen = () => {
           onPress={() => {
             // Only does something if space is checked
             if (selSpace != null) {
-              console.log("Navigating to next screen...");
-              console.log("Passing: " + selSpace.title);
-              set(ref(db), {
-                name: "Testing",
-                worked: "Yes",
+              navigation.navigate("Dashboard");
+              const db = getDatabase();
+              const reference = ref(db, "spaces/" + selSpace.title);
+              set(reference, {
+                reserved: true,
               });
             }
             // Else does not run anything when pressed
