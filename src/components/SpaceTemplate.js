@@ -46,7 +46,7 @@ const SpaceTemplate = ({ retrieveChecked }) => {
   let index = 0;
   if (spaces != undefined) {
     spaces.forEach((space) => {
-      const reference = ref(db, "spaces/" + spaces[index].title);
+      const reference = ref(db, "todaysSpaces/" + spaces[index].title);
       onValue(reference, (snapshot) => {
         // console.log("Space " + (index + 1) + " " + snapshot.val().reserved);
         if (snapshot.val().reserved === true) {

@@ -104,7 +104,7 @@ const SelectScreen = () => {
             if (selSpace != null) {
               navigation.navigate("Dashboard");
               const db = getDatabase();
-              const reference = ref(db, "spaces/" + selSpace.title);
+              const reference = ref(db, "todaysSpaces/" + selSpace.title);
               set(reference, {
                 reserved: true,
               });
