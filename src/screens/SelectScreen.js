@@ -10,6 +10,7 @@ import {
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { getDatabase, onValue, ref, set } from "firebase/database";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import SpaceTemplate from "../components/SpaceTemplate";
 import { colors } from "../utils/Colors";
 import { firebase } from "../../src/firebase/config";
@@ -19,6 +20,7 @@ const SelectScreen = () => {
   const navigation = useNavigation();
   const db = getDatabase();
   const [selSpace, setSelSpace] = useState(null);
+  const [email, setEmail] = useState(null);
 
   // Variable used to grab which space is grabbed from the child component
   const retrieveChecked = (space) => {
@@ -33,6 +35,17 @@ const SelectScreen = () => {
     navigation.setOptions({
       headerShown: false,
     });
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setEmail(await AsyncStorage.getItem("email"));
+      } catch (error) {
+        console.log(error);
+        setEmail("");
+      }
+    })();
   }, []);
 
   return (
@@ -107,6 +120,7 @@ const SelectScreen = () => {
               const reference = ref(db, "todaysSpaces/" + selSpace.title);
               set(reference, {
                 reserved: true,
+                reservedBy: email,
               });
             }
             // Else does not run anything when pressed

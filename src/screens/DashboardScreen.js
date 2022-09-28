@@ -1,11 +1,24 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { colors } from "../utils/Colors";
 import { useNavigation } from "@react-navigation/native";
 
 const DashboardScreen = () => {
   const navigation = useNavigation();
+  const [displayName, setDisplayName] = useState("Null");
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setDisplayName(await AsyncStorage.getItem("displayName"));
+      } catch (error) {
+        console.log(error);
+        setDisplayName("");
+      }
+    })();
+  }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -22,7 +35,9 @@ const DashboardScreen = () => {
         }}
       />
       <Text style={styles.welcomeText}>Welcome back,</Text>
-      <Text style={styles.nameText}>Sam</Text>
+      <Text style={styles.nameText}>
+        {displayName.substring(0, displayName.indexOf(" "))}
+      </Text>
       <View style={styles.upcomingContainer}>
         <Text style={styles.headerText}>Upcoming Reservations</Text>
         <Text style={styles.upcomingText}>No upcoming reservations</Text>

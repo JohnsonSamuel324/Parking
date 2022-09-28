@@ -10,8 +10,6 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { getDatabase, onValue, ref } from "firebase/database";
 
 import Checkbox from "expo-checkbox";
-import { colors } from "../utils/Colors";
-import { firebase } from "../../src/firebase/config";
 import { useNavigation } from "@react-navigation/native";
 
 const SpaceTemplate = ({ retrieveChecked }) => {
@@ -42,6 +40,7 @@ const SpaceTemplate = ({ retrieveChecked }) => {
     ]);
   }
 
+  // Grabs database and removes any reserved spaces from today's list (client-side)
   const db = getDatabase();
   let index = 0;
   if (spaces != undefined) {
@@ -57,6 +56,8 @@ const SpaceTemplate = ({ retrieveChecked }) => {
     });
   }
 
+  // When the spaces array changes run UseEffect
+  // Refreshes the list (client-side)
   useEffect(() => {
     if (tempArr != null) {
       setSpaces(tempArr);

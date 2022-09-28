@@ -6,12 +6,9 @@ import {
   View,
 } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
-import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithCredential,
-} from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TextInput } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { colors } from "../utils/Colors";
@@ -19,14 +16,30 @@ import { useNavigation } from "@react-navigation/native";
 
 const SignInScreen = () => {
   const navigation = useNavigation();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("sinistersam0000@gmail.com");
+  const [password, setPassword] = useState("Testing123");
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
+
+  const handleSignIn = () => {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then(async (userCredentials) => {
+        const user = userCredentials.user;
+        await AsyncStorage.setItem("displayName", user.displayName);
+        await AsyncStorage.setItem("email", user.email);
+        navigation.navigate("Main");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode + " " + errorMessage);
+      });
+  };
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -64,7 +77,10 @@ const SignInScreen = () => {
         <Text style={{ color: "white", fontSize: 16 }}>
           Don't have an account?
         </Text>
-        <TouchableOpacity style={{ paddingLeft: "1%" }}>
+        <TouchableOpacity
+          style={{ paddingLeft: "1%" }}
+          onPress={() => navigation.navigate("SignUp")}
+        >
           <Text
             style={{
               color: colors.linkBlue,
@@ -76,12 +92,7 @@ const SignInScreen = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        onPress={() => {
-          console.log(email);
-          console.log(password);
-        }}
-      >
+      <TouchableOpacity onPress={handleSignIn}>
         <Text
           style={{
             color: "white",

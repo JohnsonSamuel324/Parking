@@ -1,6 +1,7 @@
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 import DashboardScreen from "./src/screens/DashboardScreen";
+import { LogBox } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import RootNavigator from "./src/navigator/RootNavigator";
 import SelectScreen from "./src/screens/SelectScreen";
